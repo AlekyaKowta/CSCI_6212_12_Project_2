@@ -1,13 +1,14 @@
 # CSCI_6212_12_Project_2
-Analyzing the time complexity of Staircase Problem
+
+### Analyzing the time complexity of Staircase Problem
 
 This repository contains the code and analysis for computing the Pareto-optimal staircase of a set of 2D points under various time complexities.
 
 The project is structured into two parts:
 
-Java Code: Performs the experimental timing and derives the scaling constants.
+**Java Code**: Performs the experimental timing and derives the scaling constants.
 
-Python Code: Visualizes the experimental data against the scaled theoretical curves.
+**Python Code**: Visualizes the experimental data against the scaled theoretical curves.
 
 1. Java Implementation (StaircaseAlgorithms.java)
    This file contains the core logic for the experiment. It defines the point structure and implements three distinct algorithms for computing the staircase, with complexities O(n
@@ -39,18 +40,18 @@ Python Code: Visualizes the experimental data against the scaled theoretical cur
 - Java:
   The Java file runs all experiments and prints the final comparison table, including the dynamically calculated scaling constants.
   1.  Compile: Open a terminal or command prompt in the directory containing StaircaseAlgorithms.java and compile the file:
-      javac StaircaseAlgorithms.java
+      ```javac StaircaseAlgorithms.java```
   2. Execute:
-     java StaircaseAlgorithms
-
+     ```java StaircaseAlgorithms```
+  3. 
 Expected Output: The console will print the derived scaling constants and a detailed table comparing the Experimental Time, Raw Theoretical Value, and Scaled Theoretical Time for O(n
 2
 ), O(nlogn), and O(n).
 
 - View the plots:
   - Run O(n^2) plot:
-    python3 PlotGraphn2.py
+    ```python3 PlotGraphn2.py```
   - Run O(nlogn) plot:
-    python3 PlotGraphnlogn.py
+    ```python3 PlotGraphnlogn.py```
   - Run O(n) plot:
-    python3 PlotGraphn.py
+    ```python3 PlotGraphn.py```
