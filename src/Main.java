@@ -1,5 +1,15 @@
 import java.util.*;
 
+/**
+ * This class demonstrates measuring experimental and theoretical
+ * run times of a cubic complexity function using arrays with random values.
+ * It scales theoretical times to compare with experimental times.
+ *
+ * @author Alekya Kowta
+ * @version 1.0
+ * @reviewer Jay Parmar
+ */
+
 public class Main{
 
     /**
@@ -54,6 +64,13 @@ public class Main{
 
     // region Main Calculation
 
+    /**
+     * Main driver method. Runs experiments for various input sizes n,
+     * measuring the time taken by the Staircase Algorithm code and compares with
+     * theoretical time complexity.
+     *
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
 
         System.out.println("Running Staircase Algorithms for Complexity Analysis\n");
@@ -79,9 +96,7 @@ public class Main{
 
         int numRuns = 5; // Number of runs to average timing
 
-        // =======================================================================
         // --- O(n^2) Experiment ---
-        // =======================================================================
         System.out.println("\n\n#################################################################");
         System.out.println("### O(n^2) Experiment Data (N values: 80 to 20,000)           ###");
         System.out.println("#################################################################");
@@ -109,9 +124,7 @@ public class Main{
                     N, avgTimeOn2, theoRawOn2, theoScaledOn2);
         }
 
-        // =======================================================================
         // --- O(n log n) Experiment ---
-        // =======================================================================
         System.out.println("\n\n#################################################################");
         System.out.println("### O(n log n) Experiment Data (N values: 80 to 300,000)      ###");
         System.out.println("#################################################################");
@@ -139,9 +152,7 @@ public class Main{
                     N, avgTimeOnlogn, theoRawOnlogn, theoScaledOnlogn);
         }
 
-        // =======================================================================
         // --- O(n) Experiment ---
-        // =======================================================================
         System.out.println("\n\n#################################################################");
         System.out.println("### O(n) Experiment Data (N values: 10,000 to 1,000,000)     ###");
         System.out.println("#################################################################");

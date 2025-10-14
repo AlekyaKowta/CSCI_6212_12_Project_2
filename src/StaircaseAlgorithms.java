@@ -5,8 +5,6 @@ import java.util.List;
 
 public class StaircaseAlgorithms {
 
-    // --- 1. O(n^2) Algorithm (Brute Force) ---
-
     /**
      * Computes the Pareto-optimal staircase using a simple brute-force check.
      * Time Complexity: O(n^2)
@@ -53,8 +51,6 @@ public class StaircaseAlgorithms {
         return staircase;
     }
 
-    // --- 2. O(n log n) Algorithm (Sorting and Scanning) ---
-
     /**
      * Computes the Pareto-optimal staircase using sorting followed by a linear scan.
      * This is the standard efficient solution for general unsorted input.
@@ -90,8 +86,6 @@ public class StaircaseAlgorithms {
         // Convert the stack (which holds the points in the correct sequence) to a list
         return new ArrayList<>(staircaseStack);
     }
-
-    // --- 3. O(n) Algorithm (Pre-Sorted Scan) ---
 
     /**
      * Computes the Pareto-optimal staircase assuming the input is already sorted by X.
