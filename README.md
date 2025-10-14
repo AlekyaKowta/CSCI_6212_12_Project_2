@@ -12,7 +12,7 @@ The project is structured into two parts:
 
 1. Java Implementation (StaircaseAlgorithms.java)
 
-   This file contains the core logic for the experiment. It defines the point structure and implements three distinct algorithms for computing the staircase, with complexities O($n2$), O(nlogn), and O(n).
+   This file contains the core logic for the experiment. It defines the point structure and implements three distinct algorithms for computing the staircase, with complexities O($n^2$), O(nlogn), and O(n).
 
    Java Class Descriptions
    - Point:
@@ -43,9 +43,7 @@ The project is structured into two parts:
   2. Execute:
      ```java StaircaseAlgorithms```
 
-Expected Output: The console will print the derived scaling constants and a detailed table comparing the Experimental Time, Raw Theoretical Value, and Scaled Theoretical Time for O(n
-2
-), O(nlogn), and O(n).
+Expected Output: The console will print the derived scaling constants and a detailed table comparing the Experimental Time, Raw Theoretical Value, and Scaled Theoretical Time for O($n^2$), O(nlogn), and O(n).
 
 - View the plots:
   - Run O($n^2$) plot:
