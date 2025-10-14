@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class Main{
-    // --- Helper function to generate test data ---
+
     /**
      * Generates a list of n random points.
      * @param n The number of points to generate.
@@ -11,13 +11,12 @@ public class Main{
         List<Point> points = new ArrayList<>(n);
         Random rand = new Random();
         for (int i = 0; i < n; i++) {
-            // Generate X and Y coordinates between 0 and 1000
             points.add(new Point(rand.nextDouble() * 1000, rand.nextDouble() * 1000));
         }
         return points;
     }
 
-    // --- Theoretical Time Calculation Functions (Raw f(n) without scaling) ---
+    // region Caluclate Theoretical Time
 
     /** Calculates n^2 (unitless complexity) */
     public static double theoreticalOn2(int n) {
@@ -36,21 +35,24 @@ public class Main{
         return (double) n;
     }
 
-    // --- Derived Scaling Constants ---
-    // These constants are calculated from the experimental data at N=300000.
-    // C = Experimental_Time / Raw_Theoretical_Value
+    // endregion
 
-    // C2 for O(n^2): 25.6687 ms / 9.0e10 = 2.852077e-10
-    private static final double C2 = 2.852077e-10;
+    // region Derive Scaling Constants
+    /** These constants are calculated from the experimental data at N=300000.
+    C = Experimental_Time / Raw_Theoretical_Value **/
 
-    // C_LOGN for O(n log n): 34.5536 ms / 5.45838e6 = 6.330896e-6
-    private static final double C_LOGN = 6.330896e-6;
+    // C2 for O(n^2): Derived from N=20000: 0.9213 ms / 4.0e8 = 2.30325e-9
+    private static final double C2 = 2.30325e-9;
 
-    // C1 for O(n): 0.3262 ms / 300000 = 1.087333e-6
-    private static final double C1 = 1.087333e-6;
+    // C_LOGN for O(n log n): Derived from N=300000: 35.1365 ms / 5.45838e6 = 6.43734e-6
+    private static final double C_LOGN = 6.43734e-6;
 
+    // C1 for O(n): Derived from N=1000000: 3.7607 ms / 1.0e6 = 3.76070e-6
+    private static final double C1 = 3.76070e-6;
 
-    // --- Main Method for Demonstration and Plot Data Generation ---
+    // endregion
+
+    // region Main Calculation
 
     public static void main(String[] args) {
 
@@ -63,23 +65,33 @@ public class Main{
         System.out.printf("C(n): %e\n", C1);
         System.out.println("-----------------------------------\n");
 
-        // Define N values for plotting the graph
-        int[] N_values = {80, 100, 200, 500, 800, 1000, 5000, 10000, 15000, 20000, 40000, 80000, 100000, 300000};
+
+        // Define N values optimized for each complexity class
+
+        // O(n^2) N values: Focus on smaller N where timing is practical (up to 20k)
+        int[] N_values_On2 = {20, 40, 50, 80, 100, 200, 500, 1000, 2000, 5000, 8000, 10000, 15000, 20000};
+
+        // O(n log n) N values: Broad range for comparison (up to 300k)
+        int[] N_values_Onlogn = {80, 100, 200, 500, 800, 1000, 2000, 5000, 10000, 15000, 50000, 100000, 200000, 300000};
+
+        // O(n) N values: Focus on larger N for stable, linear timing (10k to 1M)
+        int[] N_values_On = {5000, 8000, 10000, 20000, 50000, 100000, 200000, 300000, 500000, 750000, 1000000};
+
         int numRuns = 5; // Number of runs to average timing
 
-        // Print header for the table
-        System.out.printf("%-10s | %-31s | %-36s | %-31s\n",
-                "N Value", "O(n^2) Exp/Raw/Scaled", "O(n log n) Exp/Raw/Scaled", "O(n) Exp/Raw/Scaled");
-        System.out.println("-----------------------------------------------------------------------------------------------------------------");
+        // =======================================================================
+        // --- O(n^2) Experiment ---
+        // =======================================================================
+        System.out.println("\n\n#################################################################");
+        System.out.println("### O(n^2) Experiment Data (N values: 80 to 20,000)           ###");
+        System.out.println("#################################################################");
+        System.out.printf("%-10s | %-8s | %-8s | %-8s\n",
+                "N Value", "Exp(ms)", "Raw", "Scaled(ms)");
+        System.out.println("------------------------------------------");
 
-        for (int N : N_values) {
+        for (int N : N_values_On2) {
             List<Point> points = generateRandomPoints(N);
-
             long timeOn2 = 0;
-            long timeOnlogn = 0;
-            long timeOn = 0;
-
-            // --- Experimental Timing Loops ---
 
             // O(n^2) Timing
             for (int r = 0; r < numRuns; r++) {
@@ -88,6 +100,29 @@ public class Main{
                 timeOn2 += (System.nanoTime() - startTime);
             }
 
+            double avgTimeOn2 = (double) timeOn2 / numRuns / 1_000_000.0;
+            double theoRawOn2 = theoreticalOn2(N);
+            double theoScaledOn2 = C2 * theoRawOn2;
+
+            // Print the combined results: Exp | Theo Raw | Theo Scaled
+            System.out.printf("%-10d | %-8.4f | %-8g | %-8.4f\n",
+                    N, avgTimeOn2, theoRawOn2, theoScaledOn2);
+        }
+
+        // =======================================================================
+        // --- O(n log n) Experiment ---
+        // =======================================================================
+        System.out.println("\n\n#################################################################");
+        System.out.println("### O(n log n) Experiment Data (N values: 80 to 300,000)      ###");
+        System.out.println("#################################################################");
+        System.out.printf("%-10s | %-8s | %-8s | %-8s\n",
+                "N Value", "Exp(ms)", "Raw", "Scaled(ms)");
+        System.out.println("------------------------------------------");
+
+        for (int N : N_values_Onlogn) {
+            List<Point> points = generateRandomPoints(N);
+            long timeOnlogn = 0;
+
             // O(n log n) Timing
             for (int r = 0; r < numRuns; r++) {
                 long startTime = System.nanoTime();
@@ -95,7 +130,30 @@ public class Main{
                 timeOnlogn += (System.nanoTime() - startTime);
             }
 
-            // O(n) Timing (Requires pre-sorting)
+            double avgTimeOnlogn = (double) timeOnlogn / numRuns / 1_000_000.0;
+            double theoRawOnlogn = theoreticalOnlogn(N);
+            double theoScaledOnlogn = C_LOGN * theoRawOnlogn;
+
+            // Print the combined results: Exp | Theo Raw | Theo Scaled
+            System.out.printf("%-10d | %-8.4f | %-8g | %-8.4f\n",
+                    N, avgTimeOnlogn, theoRawOnlogn, theoScaledOnlogn);
+        }
+
+        // =======================================================================
+        // --- O(n) Experiment ---
+        // =======================================================================
+        System.out.println("\n\n#################################################################");
+        System.out.println("### O(n) Experiment Data (N values: 10,000 to 1,000,000)     ###");
+        System.out.println("#################################################################");
+        System.out.printf("%-10s | %-8s | %-8s | %-8s\n",
+                "N Value", "Exp(ms)", "Raw", "Scaled(ms)");
+        System.out.println("------------------------------------------");
+
+        for (int N : N_values_On) {
+            List<Point> points = generateRandomPoints(N);
+            long timeOn = 0;
+
+            // Prepare for O(n) (pre-sorting time is not included in the O(n) measurement)
             List<Point> preSortedPoints = new ArrayList<>(points);
             preSortedPoints.sort(new PointXComparator());
 
@@ -105,28 +163,14 @@ public class Main{
                 timeOn += (System.nanoTime() - startTime);
             }
 
-            // --- Calculate Average Experimental Times (ms) ---
-            double avgTimeOn2 = (double) timeOn2 / numRuns / 1_000_000.0;
-            double avgTimeOnlogn = (double) timeOnlogn / numRuns / 1_000_000.0;
             double avgTimeOn = (double) timeOn / numRuns / 1_000_000.0;
-
-            // --- Calculate Theoretical Values ---
-            double theoRawOn2 = theoreticalOn2(N);
-            double theoRawOnlogn = theoreticalOnlogn(N);
             double theoRawOn = theoreticalOn(N);
-
-            // --- Calculate Scaled Theoretical Times (ms) ---
-            double theoScaledOn2 = C2 * theoRawOn2;
-            double theoScaledOnlogn = C_LOGN * theoRawOnlogn;
             double theoScaledOn = C1 * theoRawOn;
 
-
-            // Print the combined results: Exp / Theo Raw / Theo Scaled
-            System.out.printf("%-10d | %-8.4f / %-8g / %-8.4f | %-12.4f / %-8g / %-8.4f | %-8.4f / %-8g / %-8.4f\n",
-                    N,
-                    avgTimeOn2, theoRawOn2, theoScaledOn2,
-                    avgTimeOnlogn, theoRawOnlogn, theoScaledOnlogn,
-                    avgTimeOn, theoRawOn, theoScaledOn);
+            // Print the combined results: Exp | Theo Raw | Theo Scaled
+            System.out.printf("%-10d | %-8.4f | %-8g | %-8.4f\n",
+                    N, avgTimeOn, theoRawOn, theoScaledOn);
         }
     }
+    // endregion
 }

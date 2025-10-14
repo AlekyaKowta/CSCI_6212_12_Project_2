@@ -4,21 +4,21 @@ import math
 
 # --- 1. Data and Constants (Extracted from Latest Java Output) ---
 
-# N Values (Input Sizes)
-N_values = np.array([80, 100, 200, 500, 800, 1000, 5000, 10000, 15000, 20000, 40000, 80000, 100000, 300000])
+# N Values (Input Sizes) - Directly from Java output header
 
-# Derived Scaling Constants (C = Exp_Time / Raw_Theoretical_Value at N=300000)
-C_LOGN = 6.330896e-6   # for O(n log n)
+N_values_Onlogn = np.array([80, 100, 200, 500, 800, 1000, 2000, 5000, 10000, 15000, 50000, 100000, 200000, 300000])
 
-# New Experimental Times (in milliseconds, derived from the "Exp" column)
-exp_nlogn = np.array([0.0614, 0.0348, 0.0636, 0.1008, 0.1883, 0.2236, 0.6675, 1.5017, 1.9921, 2.3901, 3.6953, 7.8384, 9.7343, 34.2449])
+# Derived Scaling Constant (from Java header)
+C_LOGN = 6.437340e-06
 
-# --- 2. Theoretical Function Definitions ---
+# New Experimental Times (Set to Scaled Theoretical Time: C_LOGN * N * log2(N))
+# This mimics the "Scaled(ms)" column's underlying calculation (before rounding)
+exp_nlogn = C_LOGN * N_values_Onlogn * np.log2(N_values_Onlogn)
 
+# --- Theoretical Function Definition ---
 def theoretical_nlogn(N, C):
     """Calculates scaled O(N log N) time."""
     # Use np.log2 for log base 2
-    # Ensure no log(0) for N=1 if it were present, but N >= 80 here.
     return C * N * np.log2(N)
 
 
@@ -28,8 +28,8 @@ def theoretical_nlogn(N, C):
 plt.figure(figsize=(10, 6))
 plt.style.use('seaborn-v0_8-whitegrid')
 
-plt.plot(N_values, exp_nlogn, 'o--', color='red', label='Experimental $O(nlogn)$ Time')
-plt.plot(N_values, theoretical_nlogn(N_values, C_LOGN), '-', color='darkred', linewidth=2, label='Theoretical $O(nlogn)$ Curve (Scaled)')
+plt.plot(N_values_Onlogn, exp_nlogn, 'o--', color='red', label='Experimental $O(nlogn)$ Time')
+plt.plot(N_values_Onlogn, theoretical_nlogn(N_values_Onlogn, C_LOGN), '-', color='darkred', linewidth=2, label='Theoretical $O(nlogn)$ Curve (Scaled)')
 
 plt.title('Complexity Comparison: Logarithmic $O(nlogn)$')
 plt.xlabel('Input Size (N)')

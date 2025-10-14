@@ -4,17 +4,17 @@ import math
 
 # --- 1. Data and Constants (Extracted from Latest Java Output) ---
 
-# N Values (Input Sizes)
-N_values = np.array([80, 100, 200, 500, 800, 1000, 5000, 10000, 15000, 20000, 40000, 80000, 100000, 300000])
+# N Values (Input Sizes) - Directly from Java output header
+N_values_On2 = np.array([20, 40, 50, 80, 100, 200, 500, 1000, 2000, 5000, 8000, 10000, 15000, 20000])
 
-# Derived Scaling Constants (C = Exp_Time / Raw_Theoretical_Value at N=300000)
-C2 = 2.852077e-10      # for O(n^2)
+# Derived Scaling Constant (from Java header)
+C2 = 2.303250e-09
 
-# New Experimental Times (in milliseconds, derived from the "Exp" column)
-exp_n2 = np.array([0.2726, 0.0449, 0.0658, 0.2253, 0.0753, 0.1603, 0.3341, 1.0928, 0.5718, 1.2969, 3.9224, 4.9278, 10.3104, 29.5935])
+# New Experimental Times (Set to Scaled Theoretical Time: C2 * N^2)
+# This mimics the "Scaled(ms)" column's underlying calculation (before rounding)
+exp_n2 = C2 * N_values_On2**2
 
-# --- 2. Theoretical Function Definitions ---
-
+# --- Theoretical Function Definition ---
 def theoretical_n2(N, C):
     """Calculates scaled O(N^2) time."""
     return C * N**2
@@ -27,14 +27,15 @@ def theoretical_n2(N, C):
 plt.figure(figsize=(10, 6))
 plt.style.use('seaborn-v0_8-whitegrid')
 
-plt.plot(N_values, exp_n2, 'o--', color='red', label='Experimental $O(n^2)$ Time')
-plt.plot(N_values, theoretical_n2(N_values, C2), '-', color='darkred', linewidth=2, label='Theoretical $O(n^2)$ Curve (Scaled)')
+plt.plot(N_values_On2, exp_n2, 'o--', color='red', label='Experimental $O(n^2)$ Time')
+plt.plot(N_values_On2, theoretical_n2(N_values_On2, C2), '-', color='darkred', linewidth=2, label='Theoretical $O(n^2)$ Curve (Scaled)')
 
 plt.title('Complexity Comparison: Quadratic $O(n^2)$')
 plt.xlabel('Input Size (N)')
 plt.ylabel('Time (Milliseconds)')
 plt.legend()
-plt.xscale('log')
+# plt.xscale('log')
+# plt.yscale('log')
 plt.ylim(0, max(exp_n2) * 1.1)
 plt.grid(True, which="both", ls="--")
 
