@@ -36,6 +36,7 @@ plt.xlabel('Input Size (N)')
 plt.ylabel('Time (Milliseconds)')
 plt.legend()
 plt.xscale('log')
+//plt.yscale('log')
 plt.ylim(0, max(exp_nlogn) * 1.1)
 plt.grid(True, which="both", ls="--")
 
