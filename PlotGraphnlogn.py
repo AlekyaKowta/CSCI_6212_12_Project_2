@@ -6,7 +6,7 @@ import math
 
 # N Values (Input Sizes) - Directly from Java output header
 
-N_values_Onlogn = {5000, 10000, 15000, 30000, 50000, 100000, 200000, 300000, 400000, 500000, 600000}
+N_values_Onlogn = np.array([5000, 10000, 15000, 30000, 50000, 100000, 200000, 300000, 400000, 500000, 600000])
 
 # Derived Scaling Constant (from Java header)
 C_LOGN = 6.5705e-6
