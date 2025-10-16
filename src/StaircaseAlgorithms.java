@@ -31,13 +31,8 @@ public class StaircaseAlgorithms {
 
                 // Check for domination: q is both above AND to the right of p
                 if (q.x >= p.x && q.y >= p.y && (q.x > p.x || q.y > p.y)) {
-                    // Note: Using >= and checking (q.x > p.x || q.y > p.y) handles strict domination,
-                    // ensuring points that are exactly equal are not considered dominated unless
-                    // there's a strict improvement in one dimension.
-                    if (q.x > p.x && q.y > p.y) {
-                        isParetoOptimal = false;
-                        break;
-                    }
+                    isParetoOptimal = false;
+                    break;
                 }
             }
 

@@ -10,9 +10,8 @@ N_values_On = np.array([5000, 8000, 10000, 20000, 50000, 100000, 200000, 300000,
 # Derived Scaling Constant (from Java header)
 C1 = 3.760700e-06
 
-# New Experimental Times (Set to Scaled Theoretical Time: C1 * N)
-# This mimics the "Scaled(ms)" column's underlying calculation (before rounding)
-exp_n = C1 * N_values_On
+# New Experimental Times
+exp_n = np.array([0.0945, 0.1377, 0.0711, 0.1004, 0.1104, 0.1965, 0.2047, 0.3477, 0.6281, 2.6991, 4.4900])
 
 # --- Theoretical Function Definition ---
 def theoretical_n(N, C):

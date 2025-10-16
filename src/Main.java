@@ -54,8 +54,8 @@ public class Main{
     // C2 for O(n^2): Derived from N=20000: 0.9213 ms / 4.0e8 = 2.30325e-9
     private static final double C2 = 2.30325e-9;
 
-    // C_LOGN for O(n log n): Derived from N=300000: 35.1365 ms / 5.45838e6 = 6.43734e-6
-    private static final double C_LOGN = 6.43734e-6;
+    // C_LOGN for O(n log n): Recalculated for new max N=600000: 75.6707 ms / 1.15168e7 = 6.5705e-6
+    private static final double C_LOGN = 6.5705e-6;
 
     // C1 for O(n): Derived from N=1000000: 3.7607 ms / 1.0e6 = 3.76070e-6
     private static final double C1 = 3.76070e-6;
@@ -89,7 +89,7 @@ public class Main{
         int[] N_values_On2 = {20, 40, 50, 80, 100, 200, 500, 1000, 2000, 5000, 8000, 10000, 15000, 20000};
 
         // O(n log n) N values: Broad range for comparison (up to 300k)
-        int[] N_values_Onlogn = {80, 100, 200, 500, 800, 1000, 2000, 5000, 10000, 15000, 50000, 100000, 200000, 300000};
+        int[] N_values_Onlogn = {5000, 10000, 15000, 30000, 50000, 100000, 200000, 300000, 400000, 500000, 600000};
 
         // O(n) N values: Focus on larger N for stable, linear timing (10k to 1M)
         int[] N_values_On = {5000, 8000, 10000, 20000, 50000, 100000, 200000, 300000, 500000, 750000, 1000000};
